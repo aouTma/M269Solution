@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>AOU TMA Solution</title>
+</head>
+<body>
+    <h1>M269 Public Solution</h1>
+    <pre>
+        Question 1)
+
+a)
+Brute Force Algorithm
+
+Define Algorithm bruteForceSolution(arrayX, arrayY):
+    # this holds the size of the array
+    Create var [totalElements] = size of arrayX
+    # counter to be used in loop
+    Create var [outerCounter] = 0
+    # loop begins
+    while outerCounter < totalElements:
+        # counter for the inner loop
+        Create var [innerCounter] = 0
+        # inner loop beings
+        while innerCounter < totalElements:
+            # check if item of X matches item of Y
+            if arrayX[outerCounter] == arrayY[innerCounter]:
+                display(“X[” + outerCounter + “], with Y[“ + innerCounter + “]”)
+            End if
+            #increment inner Counter
+            innerCounter += 1
+        End innerWhile
+        #increment outer counter
+        outerCounter += 1
+    End outerWhile
+EndAlgorithm 
+
+
+complexity:
+The algorithm consists of 2 nested loops, and each loop iterates N times where N is the number of elements in the first array, which means each loop has a time complexity of O(N), and because they are nested, their time complexities must be multiplied, thus:
+The time complexity of the algorithm is O(N) * O(N) = O(N^2) - quadratic time. 
+
+b)
+Efficient Algorithm
+
+Define Algorithm efficientSolution(arrayX, arrayY):
+    # this holds the number of items in either of the arrays 
+    Create var [totalElements] = size of arrayX
+    Create var [arrayIterator] = 0
+    # dictionary to be used for fast searching
+    Create dictionary hashTable
+    # first loop begins
+    while arrayIterator < totalElements:
+        Create var [currentChar] = arrayY[arrayIterator]
+        # adding key value pair to hashTable
+        hashTable[currentChar] = arrayIterator
+        #increment iterator 
+        arrayIterator += 1
+    End while loop
+    #reset iterator
+    arrayIterator = 0
+    # second loop begins 
+    while arrayIterator < totalElements:
+        [currentChar] = arrayX[arrayIterator]
+        Create var [currentChar2ndIndex] = hashTable.getValue(currentChar)
+        #displaying outcome
+        Display (“X[“ + arrayIterator + “], with Y[“ + currentChar2ndIndex + “]”)
+        #increment iterator 
+        arrayIterator += 1
+    End while loop
+EndAlgorithm
+
+
+Complexity Analysis
+This algorithm has 2 separate loops, the first loop starts from 0 to N to go over arrayY elements so it has a time complexity of O(N). 
+Second loop also starts from 0 to N but goes over the elements of arrayX, so it also has a time complexity of O(N), and since the loops are separate and not nested their complexities is add, so we get O(2N) which simplifies to O(N).
+And finally, since this algorithm uses a dictionary, operations such as searching is constant so the overall complexity is O(N) which is linear time
+
+Algorithm Explanation
+
+This algorithm utilizes the idea of hashing and dictionaries to find data quicker. 
+Firstly, a dictionary is created in order to hold the elements of arrayY and their indices in key: value pairs. 
+Secondly, a counter is created to iterate over the elements of arrayY and add to the dictionary with current element as the key and current index as the value.
+Next the counter will be reset and a new iteration over the arrayX will begin, and in each iteration, the current character of arrayX will be used to find the index of that same character using the dictionary created earlier. 
+And then finally the X and Y indices of the same character will be printed 
+
+
+Example:
+If we consider the example where the arrays are:
+arrayX = [“X”, “O”, “T”, “E”, “R”, “L”,”S”]
+arrayY = [“L”, “S”, “T”,”E”,”R”,”O”, “X”]
+
+First step is to initialize the dictionary by going over arrayY elements with the current element of arrayY as the key, and the index as the value.
+The first loop would be as follows:
+Iteration one:
+Key: value pair to add is L: 0 
+Iteration two:
+Key: value pair to add is S: 1 
+Iteration three:
+Key: value pair to add is T: 2 
+Iteration four:
+Key: value pair to add is E: 3 
+Iteration five:
+Key: value pair to add is R: 4 
+Iteration six:
+Key: value pair to add is O: 5 
+Iteration seven:
+Key: value pair to add is X: 6 
+
+So after running the first loop, the dictionary will be as follows:
+
+Dictionary/HashTable
+L
+0
+S
+1
+T
+2
+E
+3
+R
+4
+O
+5
+X
+6
+
+
+Now the second loop which goes over the elements of the arrayX will begin and in each iteration the current character of arrayX will be paired with its equivalent index using the dictionary constructed above so the iteration would be as follows:
+
+Iteration one:
+currentChar is X and its index is 0 
+Using the dictionary, the index of X in arrayY is 6
+So, “X[0] with Y[6]” will be printed
+
+Iteration two:
+currentChar is O and its index is 1 
+Using the dictionary, the index of O in arrayY is 5
+So, “X[1] with Y[5]” will be printed
+
+Iteration three:
+currentChar is T and its index is 2 
+Using the dictionary, the index of T in arrayY is 2
+So, “X[2] with Y[2]” will be printed
+
+Iteration four:
+currentChar is E and its index is 3 
+Using the dictionary, the index of E in arrayY is 3
+So, “X[3] with Y[3]” will be printed
+
+Iteration five:
+currentChar is R and its index is 4 
+Using the dictionary, the index of R in arrayY is 4
+So, “X[4] with Y[4]” will be printed
+
+Iteration six:
+currentChar is L and its index is 5 
+Using the dictionary, the index of L in arrayY is 0
+So, “X[5] with Y[0]” will be printed
+
+Iteration seven:
+currentChar is S and its index is 6 
+Using the dictionary, the index of S in arrayY is 1
+So, “X[6] with Y[1]” will be printed
+
+
+
+
+
+
+c)
+Python Implementation
+def efficientSolution(arrayX, arrayY):
+    #number of elements
+    totalElements = len(arrayX)
+    #iterator for loop
+    arrayIterator = 0 
+    hashTable = {}
+    #first loop begins going over arrayY elements
+    while arrayIterator < totalElements:
+        #current character of arrayY
+        currentChar = arrayY[arrayIterator]
+        #add a key: value pair to hashTable
+        hashTable[currentChar] = arrayIterator
+        #increment iterator
+        arrayIterator += 1
+    #reset iterator for second loop
+    arrayIterator = 0 
+    #second loop begins going over arrayX elements
+    while arrayIterator < totalElements:
+        #current character of arrayX
+        currentChar = arrayX[arrayIterator]
+        #getting the corresponding index of currentChar
+        currentChar2ndIndex = hashTable.get(currentChar)
+        #printing the pair of indices found
+        print("X[" + str(arrayIterator) + "], with Y[" + str(currentChar2ndIndex) + "]")
+        #increment Iterator
+        arrayIterator += 1
+
+#arrays for testing
+arrayX = ["X","O","T","E","R","L","S"]
+arrayY = ["L","S","T","E","R","O","X"]
+#invoking the algorithm
+efficientSolution(arrayX, arrayY)
+
+
+
+
+Output of python code:
+
+
+d)
+Comparison
+The first algorithm used 2 nested loops in order to go over all possible outcomes by comparing each element of arrayX with all elements of arrayY and whenever the elements match each other, their indices will be printed,so clearly many useless comparisons were made when using this algorithm, and that resulted in a time complexity of O(N^2) and a space complexity of O(1)
+
+The second algorithm improves upon the first one by drastically reducing the number of comparisons made as it makes use of hashing and dictionaries. 
+Hashing/dictionaries are useful as they allow us to perform actions such as searching in constant time. 
+So the algorithm starts by initializing a dictionary that holds each value in arrayY as keys and their corresponding indices as the values. 
+This operation takes linear time as we only have to go over arrayY once. 
+Now that we initialized the dictionary, we can iterate over the elements of arrayX, and for each element we can easily find the corresponding index of that element in arrayY in constant time using the dictionary made earlier, so in each iteration the index of current X element is printed along with the index of the corresponding Y element, this operation also takes linear time as we only have to go over arrayX once and searching the dictionary takes constant time.
+
+So the time complexity of the second algorithm is O(N) + O(N) = O(N) - Linear Time, which is a great improvement to the first algorithm.
+
+
+
+Question 2)
+a)
+Bruteforce
+Define algorithm bruteForceSolution(arrivalTimes, departureTimes):
+    #creation of essential variables
+    Create var [numOfElements] = len(arrivalTimes)
+    Create var [finalResult] = 1
+    Create var [outerCounter] = 1
+    # outer loop begins execution
+    While outerCounter < numOfElements:
+        # variables for the inner loop
+        Create var [parkingSpots] = 1
+        Create var [innerCounter] = outerCounter + 1
+        # inner loop begins
+        While innerCounter < numOfElements:
+            Create var [firstCase] = (arrivalTimes[outerCounter] >= arrivalTimes[innerCounter] and arrivalTimes[outerCounter] <= departureTimes[innerCounter])
+            Create var [secondCase] = (arrivalTimes[innerCounter] >= arrivalTimes[outerCounter] and arrivalTimes[innerCounter] <= departureTimes[outerCounter])
+            # check if either of the cases above are true
+            if (firstCase or secondCase):
+                # increase parkingSpots
+                parkingSpots += 1
+            End IF
+            # increment innerCounter
+            innerCouner += 1
+        End While
+        #increment outerCounter
+        outerCounter += 1
+        # check if parkingSpots is greater than final result
+        if parkingSpots > finalResult:
+            # if so, update finalResult
+            finalResult = parkingSpots
+        End IF
+    End While 
+    #Displaying the final result
+    Display: "The minimum number of parking slots is " + finalResult
+End Algorithm
+
+
+Complexity 
+This algorithm consists of 2 nested loops, both of them iterate N times, where N is the number of cars, therefore both of them have a time a complexity of O(N), however, considering that they are nested their complexities must be multiplied, thus: 
+The algorithm's time complexity is O(N) * O(N) = O(N^2) - quadratic time.
+
+
+
+b)
+Efficient Algorithm
+Define algorithm efficientSolution(arrivalTimes, departureTimes):
+    #Creation of essential variables 
+    Create var [tempSlots] = 3000
+    Create list [parkingSlots] = a list of all zeros, and (tempSlots) elements
+    Create var [finalResult] = 1
+    Create var [numOfElements] = size of arrivalTimes
+    Create var [iterator] = 0
+    # first loop begins execution
+    While iterator < numOfElements:
+        #modifying the parkingSolts array
+        parkingSlots[arrivalTimes[iterator]] += 1
+        parkingSlots[departureTimes[iterator] + 1] -= 1
+        # increment iterator 
+        Iterator += 1
+    End While
+    #reset iterator to 1
+    iterator = 1
+    # second loop begins execution
+    while iterator < tempSlots:
+        #add adjacent items
+        parkingSlots[iterator] += parkingSlots[iterator - 1]
+        # check if current item of parkingSlots is greater than finalResult
+        if parkingSlots[iterator] > finalResult:
+            # if so, update finalResult
+            finalResult = parkingSlots[iterator]
+        End If
+        # increment iterator
+        iterator += 1
+    End While
+    # finalResult displayed
+    Display finalResult
+End Algorithm
+
+
+Complexity:
+This algorithm consists of 2 loops, however they are not nested.
+The first loop iterates N times where N is the number of cars, however the second loop iterates 3000 times regardless of the input so its time complexity is O(3000) which rounds down to O(1) - Constant time.
+Now to get the overall complexity of the algorithm, the complexities of the loops must be added as the loops are separate, thus:
+Overall complexity = O(N) + O(1) = O(N) - Linear Time, which is a great improvement over brute force solution
+
+
+c)
+Python Implementation
+def efficientSolution(arrivalTimes, departureTimes):
+    tempSlots = 3000
+    #initializing the array with all 0 values
+    parkingSlots = [0] * tempSlots
+    # final result will be held here
+    finalResult = 1
+    # the number of cars
+    numOfElements = len(arrivalTimes)
+    # iterator to be used in the loop
+    iterator = 0
+    # loop to modify the parkingSlots array
+    while iterator < numOfElements:
+        parkingSlots[arrivalTimes[iterator]] += 1
+        parkingSlots[departureTimes[iterator] + 1] -= 1
+        # increment iterator
+        iterator += 1
+    # reset iterator to 1
+    iterator = 1
+    # loop to figure out the final result
+    while iterator < tempSlots:
+        # adding every adjacent elements together
+        parkingSlots[iterator] += parkingSlots[iterator - 1]
+        # check if the sum of current adjacent elements is greater than final result
+        if parkingSlots[iterator] > finalResult:
+            # if so, update finalResult
+            finalResult = parkingSlots[iterator]
+        # increment iterator
+        iterator += 1
+    return finalResult
+
+
+arrivalTimes = [900, 1000, 1100, 1200, 1400, 1900]
+departureTimes = [970, 1500, 1550, 1650, 1600, 2000]
+
+testCase1 = efficientSolution(arrivalTimes, departureTimes)
+
+print("The minimum number of parking slots is " + str(testCase1))
+
+
+
+
+
+Result of python Code:
+
+
+Question 3)
+Part 1)
+This algorithm consists of 3 separate loops, 
+The first loop iterates from 1 to 100 so its complexity is O(100) = O(1) Constant Time
+The second loop iterates from 1 to N so its complexity is O(N) Linear Time
+The third loop iterates until j becomes >= N, however in each iteration J is doubled which means the time complexity of this loop is O(Log(N)) Logarithmic Time
+Since these loops are separate then their complexities must be added, thus:
+The overall complexity of this algorithm is = O(1) + O(N) + O(Log(N)) = O(N) Constant Time
+
+Part 2)
+T(N)=i=1n-1T(i)=2T(n-1)
+With T(0)=1
+So T(n)=2nO(2n)
+
+Part 3)
+T(N)=aT(n/b)+nd
+a=16, b=4, d=2, so:
+T(N)=16T(n/4)+n2
+By using the master theorem:
+T(N)(ndlog n)=(n2log n)
+
+Part 4)
+
+T(N)=aT(n/b)+nd
+a=8, b=2, d=1, so:
+T(N)=8T(n/2)+n1
+By using the master theorem:
+T(N)(nlogba)=(nlog28)=(n3)
+
+
+Part 5)
+T(N)=2T(n-1)+c
+T(N-1)=2T(n-2)+c
+T(N-2)=2T(n-3)+c
+T(N)=2[2T(n-2)+c]+c 
+T(N)=2[2[2T(n-3)+c]+c]+c
+Process keeps going till T(2), which would take n-2 steps, leading to a time complexity of O(2n)
+Question 4)
+a)
+Efficient algorithm 
+
+Define Algorithm efficientMatrixSearch(matrix2D):
+    Create dictionary lettersDictionary and initialize it all letters as keys and 0 for all values
+    #variables related to rows
+    Create var [numOfRows] = size of matrix2D
+    Create var [rowCounter] = 0
+    #final outcome will be held here
+    Create var [finalResult] = empty String
+    #Iteration over rows
+    while rowCounter < numOfRows:
+        #variables related to columns
+        Create var [currentRow] = matrix2D[rowCounter]
+        Create var [numOfColumns] = size of currentRow
+        Create var [columnCounter] = 0
+        #Iteration over columns of currentRow
+        while columnCounter < numOfColumns:
+            Create var [currentChar] = currentRow[columnCounter]
+            #increment the value of currentChar in the dictionary
+            lettersDictionary[currentChar] += 1
+            #increment columnCounter
+            columnCounter += 1
+        End while
+        #increment rowCounter
+        rowCounter += 1
+    End while
+    #variable to hold the highest value
+    Create var [highestValue] = 0
+    #Iteration over dictionary keys
+    For letter in lettersDictionary:
+        # check if the value of the current key is the new highest
+        if lettersDictionary[letter] > highestValue:
+            Create var [highestValue] = lettersDictionary[letter]
+            finalResult = letter
+        End if
+        # check if the value of the current key matches the current highest
+        else if lettersDictionary[letter] == highestValue:
+            finalResult += ", " + letter
+        End Else IF
+    End For Loop
+    #final outcome printed 
+    Display: "most common characters are: " + finalResult
+End Algorithm
+
+
+b)
+Complexity Analysis:
+This algorithm consists of 2 essential parts:
+The first part is the occurrence counting part, where it goes over every single character in the matrix and every time a character appears, its value in the dictionary will be incremented 
+That part is done using 2 nested loops, the first loop goes over rows, so it has a time Complexity of O(M) where M is the number of rows. 
+The second loop goes over the columns of each row, so it has a time complexity of O(N), where N is the number of rows. 
+And since the 2 loops are nested their complexities is multiplied so the complexity of the first part is O(M*N)
+
+The second part of the algorithm is determining the most common characters by using the result of the first part which is stored in the lettersDictionary, to do so, we have to go over the keys of the lettersDictionary and compare the value of each to the highestValue, if it is larger than highestValue will be updated to hold the new highest, so clearly the time complexity of this part is O(K) where K is the number of Keys 
+
+
+Now since the 2 parts are separate their complexities will be added, thus:
+
+The overall time complexity of the algorithm is O(M * N) + O(K) = O(M * N)
+
+    </pre>
+</body>
+</html>
